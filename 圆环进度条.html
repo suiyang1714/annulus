@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>圆环进度条</title>
+    <<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+        .loading,.circle,.percent{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+        .loading {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            overflow: hidden;
+            z-index: 9999;
+            -webkit-transform: translate(-50%,-50%);
+            transform: translate(-50%,-50%);
+        }
+        .circle{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            border:10px solid #fff;
+            clip:rect(0,100px,100px,50px);
+        }
+        .clip-auto{
+            clip:rect(auto, auto, auto, auto);
+        }
+        .percent{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            top:-10px;
+            left:-10px;
+        }
+        .left{
+            -webkit-transition:-webkit-transform ease;
+            transition:-webkit-transform ease;
+            transition:transform ease;
+            border:10px solid #E54B00;
+            clip: rect(0,50px,100px,0);
+        }
+        .right{
+            border:10px solid #E54B00;
+            clip: rect(0,100px,100px,50px);
+        }
+        .wth0{
+            width:0;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading">
+        <div class="circle">
+            <div class="percent left"></div>
+            <div class="percent right wth0"></div>
+        </div>
+        <div class="per"></div>
+    </div>
+
+    <script>
+        var per = 0;
+        setInterval(function () {
+            per += 25;
+            if(per>180 && per < 360){
+                $('.circle').addClass('clip-auto');
+                $('.right').removeClass('wth0');
+            }
+            else if(per > 360) {
+                per = 0;
+                $('.circle').removeClass('clip-auto');
+                $('.right').addClass('wth0');
+            }
+            $('.left').animate({
+                deg: per
+            }, {
+                step: function(n, fx) {
+                    $(this).css({
+                        "-webkit-transform":"rotate("+n+"deg)",
+                        "-moz-transform":"rotate("+n+"deg)",
+                        "transform":"rotate("+n+"deg)"
+                    });
+                },
+                duration:500
+            })
+        },500)
+    </script>
+</body>
+</html>
